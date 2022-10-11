@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
@@ -52,14 +53,17 @@ func loadEnv() {
 }
 
 func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
-	clientId := os.Getenv("CLIENT_ID")
+	//clientId := os.Getenv("CLIENT_ID")
 	u := m.Author
 	fmt.Printf("%20s %20s(%20s) > %s\n", m.ChannelID, u.Username, u.ID, m.Content)
-	if u.ID != clientId {
-		sendMessage(s, m.ChannelID, u.Mention()+"なんか喋った!")
-		sendReply(s, m.ChannelID, "test", m.Reference())
+	fmt.Println("ChannelID:", m.ChannelID)
+	fmt.Println("Cotent:", m.Content)
+	switch {
+	case strings.HasPrefix(m.Content, fmt.Sprintf("%s %s", "<@1027924810560450650>", "!helloworld")): //Bot宛に!helloworld コマンドが実行された時
+		fmt.Println("反応したぞ！！！")
+		sendMessage(s, m.ChannelID, "Hello world！")
+		sendReply(s, m.ChannelID, "aaa", m.Reference())
 	}
-
 }
 
 func sendMessage(s *discordgo.Session, channelID string, msg string) {
