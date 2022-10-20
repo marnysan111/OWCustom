@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"os/signal"
 	"strings"
@@ -17,6 +16,7 @@ var (
 	GuildID = "929987034343432194"
 	Role    = []string{"tank:1030393605350752276", "dps:1030393602054049842", "support:1030393603903721542"}
 	Rank    = []string{"bronze:1030400694118785024", "silver:1030400687382732820", "gold:1030400684526419989", "platinum:1030400692818550794", "diamond:1030400688762662993", "master:1030400695616147477", "top500:1030400679434522634"}
+	Join    = []string{""}
 )
 
 func main() {
@@ -63,27 +63,32 @@ func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	//clientId := os.Getenv("CLIENT_ID")
 	u := m.Author
 	fmt.Printf("%20s %20s(%20s) > %s\n", m.ChannelID, u.Username, u.ID, m.Content)
-	fmt.Println("ID:", m.ID)
-
-	fmt.Println(s.User(u.ID))
 	switch {
-	case strings.HasPrefix(m.Content, fmt.Sprintf("%s %s", "<@1027924810560450650>", "!helloworld")): //Bot宛に!helloworld コマンドが実行された時
-		fmt.Println("反応したぞ！！！")
-		handler.SendMessage(s, m.ChannelID, "Hello world！", nil)
-		sendReply(s, m.ChannelID, "aaa", m.Reference())
-	case strings.HasPrefix(m.Content, fmt.Sprintf("%s %s", "<@1027924810560450650>", "!help")):
-		handler.SendMessage(s, m.ChannelID, "お前には教えない", nil)
+	case strings.HasPrefix(m.Content, fmt.Sprintf("%s %s", "<@1027924810560450650>", "!join")):
+		handler.SendMessage(s, m.ChannelID, "カスタムに参加する人は次のスタンプを押してください", Join)
 
 	case strings.HasPrefix(m.Content, fmt.Sprintf("%s %s", "<@1027924810560450650>", "!team")):
 		handler.SendMessage(s, m.ChannelID, "チームの作成を行います。ロールを選択してください", Role)
-		handler.SendMessage(s, m.ChannelID, "レートを入力してください", Rank)
+		handler.SendMessage(s, m.ChannelID, "レートを入力してください [タンク]", Rank)
+		handler.SendMessage(s, m.ChannelID, "レートを入力してください [DPS]", Rank)
+		handler.SendMessage(s, m.ChannelID, "レートを入力してください [サポート]", Rank)
 
+	case strings.HasPrefix(m.Content, fmt.Sprintf("%s %s", "<@1027924810560450650>", "!create")): // or shuffle
+		handler.CreateTeam(s, m.ChannelID)
+
+		/*
+			case strings.HasPrefix(m.Content, fmt.Sprintf("%s %s", "<@1027924810560450650>", "!test")):
+				//handler.GlobalTest(s, m.ChannelID)
+				handler.ReactionTest(s, m.ChannelID)
+		*/
 	}
 }
 
+/*
 func sendReply(s *discordgo.Session, channelID string, msg string, reference *discordgo.MessageReference) {
 	_, err := s.ChannelMessageSendReply(channelID, msg, reference)
 	if err != nil {
 		log.Println("Error sending message: ", err)
 	}
 }
+*/
