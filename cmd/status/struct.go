@@ -3,10 +3,10 @@ package status
 import "github.com/bwmarrin/discordgo"
 
 type User struct {
-	ID   int
-	Name string
-	Role []string
-	Rank []string
+	Name       string
+	TankRank   string
+	DPSRank    string
+	SupprtRank string
 }
 
 type Role struct {
@@ -23,4 +23,26 @@ type Rank struct {
 	Diamond  []*discordgo.User
 	Master   []*discordgo.User
 	Top500   []*discordgo.User
+}
+
+type Role_Icon struct {
+	Tank    string
+	DPS     string
+	Support string
+}
+
+type TmpRole struct {
+	Tank    []string
+	DPS     []string
+	Support []string
+}
+
+type TmpRank struct {
+	Bronze   []string
+	Silver   []string
+	Gold     []string
+	Platinum []string
+	Diamond  []string
+	Master   []string
+	Top500   []string
 }

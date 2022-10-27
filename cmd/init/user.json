@@ -1,0 +1,16 @@
+{
+    "role": {
+        "tank": {
+            "bronze": ["mani", "tyaga"], 
+            "silver": ["aaa", "bbb"]
+        },
+        "dps": {
+            "bronze": ["mani", "tyaga"], 
+            "silver": ["aaa", "bbb"]
+        },
+        "support": {
+            "bronze": ["mani", "tyaga"], 
+            "silver": ["aaa", "bbb"]
+        }
+    }
+}

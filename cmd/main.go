@@ -2,10 +2,7 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"os/signal"
 	"strings"
-	"syscall"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
@@ -20,34 +17,38 @@ var (
 )
 
 func main() {
-	loadEnv()
-	var (
-		Token   = "Bot " + os.Getenv("APP_BOT_TOKEN")
-		BotName = "<@" + os.Getenv("CLIENT_ID") + ">"
-	)
-	fmt.Println(BotName)
+	handler.CreateTeam()
+	/*
+		loadEnv()
+		var (
+			Token   = "Bot " + os.Getenv("APP_BOT_TOKEN")
+			BotName = "<@" + os.Getenv("CLIENT_ID") + ">"
+		)
+		fmt.Println(BotName)
 
-	discord, err := discordgo.New(Token)
-	if err != nil {
-		fmt.Println("ログインに失敗しました")
-		fmt.Println(err)
-	}
-	//イベントハンドラを追加
-	discord.AddHandler(onMessageCreate)
+		discord, err := discordgo.New(Token)
+		if err != nil {
+			fmt.Println("ログインに失敗しました")
+			fmt.Println(err)
+		}
+		//イベントハンドラを追加
+		discord.AddHandler(onMessageCreate)
 
-	err = discord.Open()
-	if err != nil {
-		fmt.Println("接続エラー: ", err)
-		os.Exit(1)
-	}
-	// 直近の関数（main）の最後に実行される
-	defer discord.Close()
+		err = discord.Open()
+		if err != nil {
+			fmt.Println("接続エラー: ", err)
+			os.Exit(1)
+		}
 
-	fmt.Println("Listening...")
-	stopBot := make(chan os.Signal, 1)
-	signal.Notify(stopBot, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
-	<-stopBot
-	return
+		// 直近の関数（main）の最後に実行される
+		defer discord.Close()
+
+		fmt.Println("Listening...")
+		stopBot := make(chan os.Signal, 1)
+		signal.Notify(stopBot, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
+		<-stopBot
+		return
+	*/
 }
 
 func loadEnv() {
@@ -60,6 +61,11 @@ func loadEnv() {
 }
 
 func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+	/*
+		if len(Role) == 0 || len(Rank) == 0 {
+			Role, Rank = handler.InitIconID(s, GuildID)
+		}
+	*/
 	//clientId := os.Getenv("CLIENT_ID")
 	u := m.Author
 	fmt.Printf("%20s %20s(%20s) > %s\n", m.ChannelID, u.Username, u.ID, m.Content)
@@ -74,7 +80,7 @@ func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		handler.SendMessage(s, m.ChannelID, "レートを入力してください [サポート]", Rank)
 
 	case strings.HasPrefix(m.Content, fmt.Sprintf("%s %s", "<@1027924810560450650>", "!create")): // or shuffle
-		handler.CreateTeam(s, m.ChannelID)
+		//handler.CreateTeam(s, m.ChannelID)
 
 		/*
 			case strings.HasPrefix(m.Content, fmt.Sprintf("%s %s", "<@1027924810560450650>", "!test")):

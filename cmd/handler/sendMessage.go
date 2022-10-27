@@ -7,22 +7,11 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-var (
-	RoleMessageID         string
-	RankMassageID_Tank    string
-	RankMassageID_DPS     string
-	RankMassageID_Support string
-	TankIcon              = "tank:1030393605350752276"
-	DPSIcon               = "dps:1030393602054049842"
-	SupportIcon           = "support:1030393603903721542"
-	BronzeIcon            = "bronze:1030400694118785024"
-	SilverIcon            = "silver:1030400687382732820"
-	GoldIcon              = "gold:1030400684526419989"
-	PlatinumIcon          = "platinum:1030400692818550794"
-	DiamondIcon           = "diamond:1030400688762662993"
-	MasterIcon            = "master:1030400695616147477"
-	Top500Icon            = "top500:1030400679434522634"
-)
+/*
+tank = 1034655699935952947
+dps = 1034655717598171146
+sup = 1034655739362422805
+*/
 
 func SendMessage(s *discordgo.Session, channelID string, msg string, emoji []string) {
 	message, err := s.ChannelMessageSend(channelID, msg)
